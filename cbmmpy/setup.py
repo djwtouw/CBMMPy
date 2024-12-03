@@ -1,18 +1,21 @@
 import os
 import pybind11
+import setuptools
 from distutils.core import setup, Extension
 
 
-cpp_args = ["-std=c++11"]
+if r"MSC" in pybind11.sys.version:
+    cpp_args = ["/std:c++17", "-UNDEBUG", "/Ox"]
+else:
+    cpp_args = ["-std=c++17", "-UNDEBUG", "-O3"]
+
 package_name = "cbmmpy"
 
 ext_modules = [
     Extension(
         f"{package_name}._{package_name}",
         ["cpp/src/" + file for file in os.listdir("cpp/src")],
-        include_dirs=["pybind11/include",
-                      "cpp/include",
-                      pybind11.get_include()],
+        include_dirs=["pybind11/include", "cpp/include", pybind11.get_include()],
         language="c++",
         extra_compile_args=cpp_args,
     ),
@@ -20,6 +23,6 @@ ext_modules = [
 
 setup(
     ext_modules=ext_modules,
-    packages=[package_name],
+    packages=setuptools.find_packages(),
     zip_safe=False
 )
