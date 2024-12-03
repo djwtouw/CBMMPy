@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "pybind11~=2.13.6"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "newpackage"
+version = "0.1"
+description = "Clear description"
+authors = [{name = "Author", email = "author@email.com"}]
+license = {file = "LICENSE.txt"}
+requires-python = ">=3.9"
+readme = "README.md"
+dependencies = [
+    "numpy>=1.23"
+]

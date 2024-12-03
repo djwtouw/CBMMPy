@@ -1,3 +1,5 @@
+cbmmpy/cpp/include/Eigen/
+
 ### C++ ###
 # Prerequisites
 *.d
