@@ -17,4 +17,4 @@ include_directories(C:/Users/Daniel/anaconda3/pkgs/pybind11-2.9.2-py38h757b272_0
 file(GLOB SOURCES "src/*.cpp")
 
 # Add the executable
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} src/sylvester_solver.cpp include/sylvester_solver.h)

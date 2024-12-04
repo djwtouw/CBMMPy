@@ -1,4 +1,6 @@
 import numpy as np
+from cbmmpy._cbmmpy import sylvester
+
 
 # %%
 
@@ -27,4 +29,6 @@ for i in range(X.shape[0]):
 
 X = eig_A.eigenvectors @ X @ eig_B.eigenvectors.T
 
-print((A @ X + X @ B).round(4))
+print(X.round(4))
+print(sylvester(A, B, C).round(4))
+

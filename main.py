@@ -8,3 +8,4 @@ if __name__ == "__main__":
 
     print("Compute x + y, for x=[2. 3.] and y=[1. 1.]")
     print(f"Answer: {vec_sum(np.array([2, 3]), np.array([1, 1]))}")
+
