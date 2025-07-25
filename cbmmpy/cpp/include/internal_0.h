@@ -1,6 +1,0 @@
-#ifndef PYBIND11TEMPLATE_TEMPLATE_A_H
-#define PYBIND11TEMPLATE_TEMPLATE_A_H
-
-double square(double x);
-
-#endif //PYBIND11TEMPLATE_TEMPLATE_A_H

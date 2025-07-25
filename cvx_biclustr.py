@@ -1,5 +1,8 @@
 import numpy as np
-from cbmmpy._cbmmpy import sylvester
+import cbmmpy
+from cbmmpy._cbmmpy import sylvester_solver
+from cbmmpy import ConvexBiclusteringWeights
+from cbmmpy import _cbmm_update, _cbmm_solver
 
 
 def compute_row_weights(X, phi=1):
@@ -14,8 +17,8 @@ def compute_row_weights(X, phi=1):
         res[i, i] = 0
 
         for j in range(i):
-            # First compute distance
-            res[i, j] = np.linalg.norm(X[i, :] - X[j, :])
+            # First compute squared distance
+            res[i, j] = np.linalg.norm(X[i, :] - X[j, :]) ** 2
 
             # Then weight
             res[i, j] = np.exp(-phi * res[i, j])
@@ -24,6 +27,7 @@ def compute_row_weights(X, phi=1):
             res[j, i] = res[i, j]
 
     return res
+
 
 def compute_col_weights(X, phi=1):
     # Number of variables
@@ -37,8 +41,8 @@ def compute_col_weights(X, phi=1):
         res[i, i] = 0
 
         for j in range(i):
-            # First compute distance
-            res[i, j] = np.linalg.norm(X[:, i] - X[:, j])
+            # First compute squared distance
+            res[i, j] = np.linalg.norm(X[:, i] - X[:, j]) ** 2
 
             # Then weight
             res[i, j] = np.exp(-phi * res[i, j])
@@ -47,6 +51,7 @@ def compute_col_weights(X, phi=1):
             res[j, i] = res[i, j]
 
     return res
+
 
 # %%
 
@@ -79,11 +84,17 @@ col_weights = compute_col_weights(X)
 lambda1 = 0.1
 lambda2 = 2.0
 
+# Use package functions
+weights = ConvexBiclusteringWeights(k_rows=X.shape[0] - 1, k_cols=X.shape[1] - 1, phi_rows=1, phi_cols=1, normalize=False)
+weights.compute_weights(X)
+
 # Initial solution
 A = X.copy()
+A2 = X.copy()
 
 # Compute loss
 print(loss(X, A, lambda1, lambda2, row_weights, col_weights))
+print(cbmmpy._cvxbc_loss._convex_biclustering_loss(X, A, lambda1, lambda2, weights))
 
 # For majorization step: compute C0 and G0
 C0 = np.zeros((A.shape[0], A.shape[0]))
@@ -93,7 +104,7 @@ G0 = np.zeros((A.shape[1], A.shape[1]))
 for i in range(A.shape[0]):
     for ii in range(i):
         # Compute element of interest
-        temp = row_weights[i, ii] / np.linalg.norm(A[i, :] - A[ii, :])
+        temp = row_weights[i, ii] / max(np.linalg.norm(A[i, :] - A[ii, :]), 1e-6)
 
         # Modify C0
         C0[i, ii] -= temp
@@ -105,7 +116,7 @@ for i in range(A.shape[0]):
 for j in range(A.shape[1]):
     for jj in range(j):
         # Compute element of interest
-        temp = col_weights[j, jj] / np.linalg.norm(A[:, j] - A[:, jj])
+        temp = col_weights[j, jj] / max(np.linalg.norm(A[:, j] - A[:, jj]), 1e-6)
 
         # Modify C0
         G0[j, jj] -= temp
@@ -118,8 +129,22 @@ S1 = np.eye(A.shape[0]) + lambda1 * C0
 S2 = lambda2 * G0
 
 # Update A
-A = sylvester(S1, S2, X)
+A = sylvester_solver(S1, S2, X)
 
 # Compute loss
 print(loss(X, A, lambda1, lambda2, row_weights, col_weights))
 
+
+# %%
+
+res = _cbmm_solver(X, lambda1, lambda2, weights, 25, 100, 1e-6)
+A2 = res["A"]
+losses = res["losses"]
+losses[-1]
+len(losses)
+
+from cbmmpy import ConvexBiclustering
+
+model = ConvexBiclustering()
+model.fit(X, weights)
+model._solve_result["losses"][-1]

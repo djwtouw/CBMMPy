@@ -2,7 +2,7 @@
 #include "sylvester_solver.h"
 
 
-Eigen::MatrixXd sylvester(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C)
+Eigen::MatrixXd sylvester_solver(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C)
 {
     // Perform spectral decompositions
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eig_A(A);
@@ -34,25 +34,25 @@ Eigen::MatrixXd sylvester(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, co
 }
 
 
-Eigen::MatrixXd sylvester(const Eigen::VectorXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C)
+Eigen::MatrixXd sylvester_solver(const Eigen::VectorXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C)
 {
     return C;
 }
 
 
-Eigen::MatrixXd sylvester(const Eigen::MatrixXd& A, const Eigen::VectorXd& B, const Eigen::MatrixXd& C)
+Eigen::MatrixXd sylvester_solver(const Eigen::MatrixXd& A, const Eigen::VectorXd& B, const Eigen::MatrixXd& C)
 {
     return C;
 }
 
 
-Eigen::MatrixXd sylvester(const Eigen::VectorXd& A, const Eigen::VectorXd& B, const Eigen::MatrixXd& C)
+Eigen::MatrixXd sylvester_solver(const Eigen::VectorXd& A, const Eigen::VectorXd& B, const Eigen::MatrixXd& C)
 {
     return C;
 }
 
 
-Eigen::MatrixXd sylvester_wrapper(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C)
+Eigen::MatrixXd export_sylvester_solver(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C)
 {
-    return sylvester(A, B, C);
+    return sylvester_solver(A, B, C);
 }

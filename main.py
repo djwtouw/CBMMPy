@@ -1,11 +1,18 @@
-from cbmmpy import square_cube, vec_sum
 import numpy as np
+from cbmmpy import ConvexBiclusteringWeights, ConvexBiclustering
 
 
-if __name__ == "__main__":
-    print("Compute x*x + x*x*x, for x=3")
-    print(f"Answer: {square_cube(3)}")
+# %%
 
-    print("Compute x + y, for x=[2. 3.] and y=[1. 1.]")
-    print(f"Answer: {vec_sum(np.array([2, 3]), np.array([1, 1]))}")
+# Initialize data
+np.random.seed(123)
+X = np.random.rand(6, 3)
+lambda1 = 0.1
+lambda2 = 2.0
 
+# Use package functions
+weights = ConvexBiclusteringWeights(k_rows=X.shape[0] - 1, k_cols=X.shape[1] - 1, phi_rows=1, phi_cols=1, normalize=False)
+weights.compute_weights(X)
+
+model = ConvexBiclustering(lambda_rows=lambda1, lambda_cols=lambda2)
+model.fit(X, weights)

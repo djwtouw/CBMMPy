@@ -1,6 +1,6 @@
 import numpy as np
-from cbmmpy._cbmmpy import sylvester
-
+from cbmmpy._cbmmpy import sylvester_solver
+from cbmmpy import _convex_biclustering_update
 
 # %%
 
@@ -30,5 +30,5 @@ for i in range(X.shape[0]):
 X = eig_A.eigenvectors @ X @ eig_B.eigenvectors.T
 
 print(X.round(4))
-print(sylvester(A, B, C).round(4))
+print(sylvester_solver(A, B, C).round(4))
 
