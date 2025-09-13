@@ -1,8 +1,6 @@
 import numpy as np
-import cbmmpy
-from cbmmpy._cbmmpy import sylvester_solver
+from cbmmpy._cbmmpy import sylvester_solver, convex_biclustering
 from cbmmpy import ConvexBiclusteringWeights
-from cbmmpy import _cbmm_update, _cbmm_solver
 
 
 def compute_row_weights(X, phi=1):
@@ -94,7 +92,6 @@ A2 = X.copy()
 
 # Compute loss
 print(loss(X, A, lambda1, lambda2, row_weights, col_weights))
-print(cbmmpy._cvxbc_loss._convex_biclustering_loss(X, A, lambda1, lambda2, weights))
 
 # For majorization step: compute C0 and G0
 C0 = np.zeros((A.shape[0], A.shape[0]))
@@ -134,17 +131,21 @@ A = sylvester_solver(S1, S2, X)
 # Compute loss
 print(loss(X, A, lambda1, lambda2, row_weights, col_weights))
 
-
 # %%
 
-res = _cbmm_solver(X, lambda1, lambda2, weights, 25, 100, 1e-6)
-A2 = res["A"]
-losses = res["losses"]
-losses[-1]
-len(losses)
+result = convex_biclustering(
+    X.T,
+    weights._row_indices.T,
+    weights._col_indices.T,
+    weights._row_weights,
+    weights._col_weights,
+    X.shape[0],
+    X.shape[1],
+    lambda1,
+    lambda2,
+    1e-6,
+    25,
+    1,
+)
 
-from cbmmpy import ConvexBiclustering
-
-model = ConvexBiclustering()
-model.fit(X, weights)
-model._solve_result["losses"][-1]
+print(result["A"].T)

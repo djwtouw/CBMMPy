@@ -16,3 +16,7 @@ weights.compute_weights(X)
 
 model = ConvexBiclustering(lambda_rows=lambda1, lambda_cols=lambda2)
 model.fit(X, weights)
+
+# Results
+model._solve_result # Location of the minimum
+model._losses # Values of the loss function during the optimization

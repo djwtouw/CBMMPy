@@ -4,12 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cbmmpy"
-version = "0.1"
+version = "0.2"
 description = "Convex biclustering"
 authors = [{name = "Daniel Touw", email = "touw@ese.eur.nl"}]
-license = {file = "LICENSE.txt"}
+license-files = ["LICENSE"]
 requires-python = ">=3.9"
-readme = "README.md"
 dependencies = [
     "numpy>=1.23",
     "scikit-learn>=1.2"

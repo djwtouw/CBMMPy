@@ -32,7 +32,8 @@ class DownloadEigen(build_ext):
 
 
 if r"MSC" in pybind11.sys.version:
-    cpp_args = ["/std:c++17", "-UNDEBUG", "/Ox"]
+    # cpp_args = ["/std:c++17", "/DEBUG"] # Debug
+    cpp_args = ["/std:c++17", "/NDEBUG", "/Ox"] # Release
 else:
     cpp_args = ["-std=c++17", "-UNDEBUG", "-O3"]
 

@@ -2,7 +2,7 @@
 #include "sylvester_solver.h"
 
 
-Eigen::MatrixXd sylvester_solver(const Eigen::MatrixXd& A, const Eigen::MatrixXd& B, const Eigen::MatrixXd& C)
+Eigen::MatrixXd sylvester_solver(const Eigen::MatrixXd &A, const Eigen::MatrixXd &B, const Eigen::MatrixXd &C)
 {
     // Perform spectral decompositions
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eig_A(A);

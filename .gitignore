@@ -1,4 +1,6 @@
 cbmmpy/cpp/include/Eigen/
+cbmmpy/cpp/CMakeLists.txt
+cbmmpy/cpp/extern/
 
 ### C++ ###
 # Prerequisites
