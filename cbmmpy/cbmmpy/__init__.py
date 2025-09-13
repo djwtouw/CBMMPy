@@ -1,4 +1,2 @@
 from .convex_biclustering_weights import ConvexBiclusteringWeights
 from .convex_biclustering import ConvexBiclustering
-from ._cvxbc_loss import _convex_biclustering_loss
-from ._cvxbc_solver import _cbmm_update, _cbmm_solver

@@ -4,6 +4,7 @@
 
 #include "Eigen/Eigen"
 #include "sylvester_solver.h"
+#include "convex_biclustering.h"
 
 namespace py = pybind11;
 
@@ -11,4 +12,5 @@ namespace py = pybind11;
 PYBIND11_MODULE(_cbmmpy, m)
 {
     m.def("sylvester_solver", &export_sylvester_solver, "Test");
+    m.def("convex_biclustering", &convex_biclustering, "Test");
 }

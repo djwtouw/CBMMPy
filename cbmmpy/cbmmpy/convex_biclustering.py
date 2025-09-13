@@ -1,6 +1,6 @@
 import numpy as np
-from ._cvxbc_solver import _cbmm_solver
-from .convex_biclustering_weights import ConvexBiclusteringWeights  # Assuming you have this class
+from .convex_biclustering_weights import ConvexBiclusteringWeights
+from ._cbmmpy import convex_biclustering
 
 
 class ConvexBiclustering:
@@ -15,9 +15,22 @@ class ConvexBiclustering:
         self.eps_convergence = eps_convergence
 
     def fit(self, X: np.ndarray, weights: ConvexBiclusteringWeights):
-        self._solve_result = _cbmm_solver(
-            X, self.lambda_rows, self.lambda_cols, weights, self.burnin_iterations, self.max_iterations,
-            self.eps_convergence
+        result = convex_biclustering(
+            X.T,
+            weights._row_indices.T,
+            weights._col_indices.T,
+            weights._row_weights,
+            weights._col_weights,
+            X.shape[0],
+            X.shape[1],
+            self.lambda_rows,
+            self.lambda_cols,
+            self.eps_convergence,
+            self.burnin_iterations,
+            self.max_iterations,
         )
+
+        self._solve_result = result["A"].T
+        self._losses = result["losses"]
 
         return self
