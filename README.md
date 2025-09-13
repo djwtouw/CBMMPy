@@ -4,4 +4,7 @@ An implementation of the convex clustering through majorization-minimization alg
 This project is under active development.
 
 ### Installation
-Navigate to the `cbmmpy` folder and run `pip install .`.
+There are several ways to install the package, depending on the use case.
+1. To use it in another project, run `pip install git+https://github.com/djwtouw/CBMMPy.git@main#subdirectory=cbmmpy`.
+2. Clone the project and navigate to the `cbmmpy` folder and run `pip install .` to install only the package.
+3. Clone the project, run `pip install -r requirements.txt` to be able to run all scripts in the project.
